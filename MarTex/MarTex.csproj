@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <StartupObject>MarTex.Program</StartupObject>
+    <Authors>AaronRobert</Authors>
+    <Company>AaronRobert</Company>
+    <Copyright>AaronRobert</Copyright>
+    <PackageLicenseUrl>https://github.com/RobertIndie/Martex/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/RobertIndie/Martex</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/RobertIndie/Martex</RepositoryUrl>
+    <NeutralLanguage>zh</NeutralLanguage>
+  </PropertyGroup>
+
+</Project>
