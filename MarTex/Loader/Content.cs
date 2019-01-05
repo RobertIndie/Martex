@@ -6,6 +6,6 @@ namespace MarTex.Loader
 {
     public class Content
     {
-        public List<string> content;
+        public List<string> content = new List<string>();
     }
 }

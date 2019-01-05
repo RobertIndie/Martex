@@ -11,7 +11,7 @@ namespace UnitTest
         public void LoadFile()
         {
             ContentLoader loader = LoaderFactory.CreateFileLoader(@"../test.md");
-            Console.WriteLine(Environment.CurrentDirectory);
+            Content content = loader.Load();
         }
     }
 }
