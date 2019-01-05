@@ -6,7 +6,7 @@ namespace MarTex.Loader
 {
     public class LoaderFactory
     {
-        public ContentLoader CreateFileLoader(string path)
+        public static ContentLoader CreateFileLoader(string path)
         {
             FileLoader loader = new FileLoader
             {

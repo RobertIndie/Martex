@@ -32,3 +32,4 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+Test/netcoreapp2.2
