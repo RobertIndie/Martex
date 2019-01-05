@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MarTex
 {
@@ -6,7 +7,8 @@ namespace MarTex
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome to Martex");
+            return;
         }
     }
 }
