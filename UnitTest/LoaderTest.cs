@@ -19,12 +19,18 @@ namespace UnitTest
         [Fact]
         public void ParseContent()
         {
-            Content content = LoadFile();
             Parser parser = new Parser()
             {
-                content = content
+                content = new Content()
+                {
+                    rawText = @"\
+Hello\nI am Aaron Robert.\
+I use \\"
+                }
             };
-            parser.Escape();
+            Assert.Equal("Hello\nI am Aaron Robert.I use \\", parser.Escape());
+            parser.content.rawText = @"There are no diagonal bars here.";
+            Assert.Equal("There are no diagonal bars here.", parser.Escape());
         }
     }
 }
