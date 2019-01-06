@@ -17,7 +17,7 @@ namespace MarTex.Loader
             }
             FileStream fileStream = new FileStream(filePath, FileMode.Open);
             StreamReader streamReader = new StreamReader(fileStream);
-            result.content.AddRange(streamReader.ReadToEnd().Split('\n'));
+            result.rawText = streamReader.ReadToEnd();
             streamReader.Close();
             fileStream.Close();
             return result;
