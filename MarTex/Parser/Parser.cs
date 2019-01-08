@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using MarTex.Loader;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace MarTex.Parser
 {
@@ -49,6 +51,22 @@ namespace MarTex.Parser
             }
             content.rawText = p == content.rawText.Length ? new string(newStr) : new string(newStr).Remove(p);
             return content.rawText;
+        }
+
+        public Dictionary<string, (string, Func<XElement>)> textPattern = new Dictionary<string, (string, Func<XElement>)>()
+        {
+            {"Bold",(@"\*{2}\S*\*{2}",()=>{
+                return null;
+            }) }
+        };
+        public XElement ParseText(string text)
+        {
+            return null;
+        }
+
+        public void ParseFramework()
+        {
+
         }
     }
 }
