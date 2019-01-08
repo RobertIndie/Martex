@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MarTex.Loader;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
+using System.Xml;
 
 namespace MarTex.Parser
 {
@@ -53,20 +53,28 @@ namespace MarTex.Parser
             return content.rawText;
         }
 
-        public Dictionary<string, (string, Func<XElement>)> textPattern = new Dictionary<string, (string, Func<XElement>)>()
+        public Dictionary<string, (string find_pattern, string replace_patter)> textPattern = new Dictionary<string, (string find_pattern, string replace_patter)>()
         {
-            {"Bold",(@"\*{2}\S*\*{2}",()=>{
-                return null;
-            }) }
+            { "Bold",(@"\*{2}(.*)\*{2}",@"$1")}
         };
-        public XElement ParseText(string text)
+        public XmlElement ParseText(string text)
         {
+            XmlDocument doc = new XmlDocument();
+            var root = doc.CreateElement("Root");
+            root.InnerXml = "<Fuck>you</Fuck>";
+            doc.AppendChild(root);
+            var s = root.InnerXml;
+            foreach (var pattern in textPattern)
+            {
+                Regex rgx = new Regex(pattern.Key);
+                
+            }
             return null;
         }
 
         public void ParseFramework()
         {
-
+            
         }
     }
 }

@@ -23,5 +23,11 @@ I use \\"
             parser.content.rawText = @"There are no diagonal bars here.";
             Assert.Equal("There are no diagonal bars here.", parser.Escape());
         }
+
+        [Fact]
+        public void ParseText()
+        {
+            new Parser().ParseText("");
+        }
     }
 }
