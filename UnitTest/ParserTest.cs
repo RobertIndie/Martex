@@ -28,8 +28,60 @@ I use \\"
         public void ParseText()
         {
             Parser parser = new Parser();
-            string text = "Hello,This is **Bold**.**a**";
-            var e = parser.ParseText(text);
+            Assert.Equal("Hello,This is <Bold>Bold</Bold>.<Bold>a</Bold>", parser.ParseText("Hello,This is **Bold**.**a**").InnerXml);
+            Assert.Equal(@"Correct:
+correct regex:
+\\*{2}(?=[^\\s\\*])(.*?)([^\\s\\*])\\*{2}
+
+Lorem **ipsum** dolor **A** *sit* amet, *consectetur *****
+*adipiscing elit, sed do **eiusmod tempor incididunt ut.**
+
+
+sion & **Test** to **matches sa d* *******@*(101 = sa iojads iojas opjkas    _** .
+****TES   T******
+**TEST * TEST**
+**test**
+**test.s  sddas ijdsoiaj 12@!@@#*43d**
+**test test**
+***ts**
+
+Incorrect:
+
+Multiline **bolded*
+** test**
+**test ***
+
+One case to handle:
+**g**
+
+
+", parser.ParseText(@"Correct:
+correct regex:
+\\*{2}(?=[^\\s\\*])(.*?)([^\\s\\*])\\*{2}
+
+Lorem <Bold>ipsum</Bold> dolor <Bold>A</Bold> *sit* amet, *consectetur *****
+*adipiscing elit, sed do <Bold>eiusmod tempor incididunt ut.</Bold>
+
+
+sion & <Bold>Test</Bold> to <Bold>matches sa d* *******@*(101 = sa iojads iojas opjkas    _</Bold> .
+**<Bold>TES   T</Bold>****
+<Bold>TEST * TEST</Bold>
+<Bold>test</Bold>
+<Bold>test.s  sddas ijdsoiaj 12@!@@#*43d</Bold>
+<Bold>test test</Bold>
+*<Bold>ts</Bold>
+
+Incorrect:
+
+Multiline **bolded*
+** test**
+**test ***
+
+One case to handle:
+<Bold>g</Bold>
+
+
+").InnerXml);
         }
     }
 }
