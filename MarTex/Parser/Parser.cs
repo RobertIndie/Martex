@@ -53,9 +53,9 @@ namespace MarTex.Parser
             return content.rawText;
         }
 
-        public Dictionary<string, (string find_pattern, Func<Match,string,string> parse)> textPattern = new Dictionary<string, (string, Func<Match,string, string>)>()
+        public Dictionary<string, (string find_pattern, Func<Match,string> parse)> textPattern = new Dictionary<string, (string, Func<Match, string>)>()
         {
-            { "Bold",(@"\*{2}(?=[^\s\*])(?<content>.*?)(?:<fuck>[^\s\*])\*{2}",(match,format)=> string.Format(format,match.Groups["fuck"]))}
+            { "Bold",(@"\*{2}(?=[^\s\*])(?<content>.*?)(?:[^\s\*])\*{2}",(match)=> string.Format("<Bold>{0}</Bold>",match.Groups["content"]))}
         };
         public XmlElement ParseText(string text)
         {
@@ -68,11 +68,9 @@ namespace MarTex.Parser
             XmlElement element = doc.CreateElement("Text");
             foreach (var pattern in textPattern)
             {
-                StringBuilder format_sb = new StringBuilder();
-                format_sb.AppendFormat("<{0}>{{0}}</{0}>", pattern.Key);
                 Regex rgx = new Regex(pattern.Value.find_pattern);
                 var match = rgx.Match(text);
-                element.InnerXml = rgx.Replace(text, pattern.Value.parse(match,format_sb.ToString()));
+                element.InnerXml = rgx.Replace(text, pattern.Value.parse(match));
             }
             return element;
         }
