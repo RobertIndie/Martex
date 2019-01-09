@@ -55,7 +55,8 @@ namespace MarTex.Parser
 
         public Dictionary<string, (string find_pattern, Func<Match,string> parse)> textPattern = new Dictionary<string, (string, Func<Match, string>)>()
         {
-            { "Bold",(@"\*{2}(?=[^\s\*])(?<content>.*?)(?:[^\s\*])\*{2}",(match)=> string.Format("<Bold>{0}</Bold>",match.Groups["content"]))}
+            { "Bold",(@"\*{2}(?=[^\s\*])(.*?)([^\s\*])\*{2}",(match)=> string.Format("<Bold>{0}{1}</Bold>","$1","$2"))},//搞不明白，为啥用(match)=> "<Bold>$0$1</Bold>"就乱套了？
+                                                                                                                       //而且为啥用$0只能取到缺失最后一个字符的内容？
         };
         public XmlElement ParseText(string text)
         {
@@ -69,8 +70,9 @@ namespace MarTex.Parser
             foreach (var pattern in textPattern)
             {
                 Regex rgx = new Regex(pattern.Value.find_pattern);
-                var match = rgx.Match(text);
-                element.InnerXml = rgx.Replace(text, pattern.Value.parse(match));
+                MatchCollection matches = rgx.Matches(text);
+                foreach(var match in matches)
+                    text = element.InnerXml = rgx.Replace(text, pattern.Value.parse((Match)match),1);
             }
             return element;
         }
