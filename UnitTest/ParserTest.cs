@@ -27,7 +27,9 @@ I use \\"
         [Fact]
         public void ParseText()
         {
-            new Parser().ParseText("");
+            Parser parser = new Parser();
+            string text = "Hello,This is **Bold**.**a**";
+            var e = parser.ParseText(text);
         }
     }
 }

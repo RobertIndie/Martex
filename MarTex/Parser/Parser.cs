@@ -53,23 +53,28 @@ namespace MarTex.Parser
             return content.rawText;
         }
 
-        public Dictionary<string, (string find_pattern, string replace_patter)> textPattern = new Dictionary<string, (string find_pattern, string replace_patter)>()
+        public Dictionary<string, (string find_pattern, Func<Match,string,string> parse)> textPattern = new Dictionary<string, (string, Func<Match,string, string>)>()
         {
-            { "Bold",(@"\*{2}(.*)\*{2}",@"$1")}
+            { "Bold",(@"\*{2}(?=[^\s\*])(?<content>.*?)(?:<fuck>[^\s\*])\*{2}",(match,format)=> string.Format(format,match.Groups["fuck"]))}
         };
         public XmlElement ParseText(string text)
         {
+            //XmlDocument doc = new XmlDocument();
+            //var root = doc.CreateElement("Root");
+            //root.InnerXml = "<Fuck>you</Fuck>";
+            //doc.AppendChild(root);
+            //var s = root.InnerXml;
             XmlDocument doc = new XmlDocument();
-            var root = doc.CreateElement("Root");
-            root.InnerXml = "<Fuck>you</Fuck>";
-            doc.AppendChild(root);
-            var s = root.InnerXml;
+            XmlElement element = doc.CreateElement("Text");
             foreach (var pattern in textPattern)
             {
-                Regex rgx = new Regex(pattern.Key);
-                
+                StringBuilder format_sb = new StringBuilder();
+                format_sb.AppendFormat("<{0}>{{0}}</{0}>", pattern.Key);
+                Regex rgx = new Regex(pattern.Value.find_pattern);
+                var match = rgx.Match(text);
+                element.InnerXml = rgx.Replace(text, pattern.Value.parse(match,format_sb.ToString()));
             }
-            return null;
+            return element;
         }
 
         public void ParseFramework()
